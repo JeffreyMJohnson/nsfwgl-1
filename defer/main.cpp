@@ -65,7 +65,7 @@ void DeferredApplication::onPlay()
 	m_soulspear->normal    = "SoulspearNormal";		// These handle names may not be what your loadFBX sets 
 	m_soulspear->specular  = "SoulspearSpecular";	// them as! (Assets will report what the key names are though)
 	m_soulspear->specPower = 40.0f;
-	m_soulspear->transform = mat4(1);
+	m_soulspear->transform = glm::mat4(1);
 
 	TODO_D("Initialize our render passes!");
 

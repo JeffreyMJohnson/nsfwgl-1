@@ -1,9 +1,11 @@
 #pragma once
+#include "Render.h"
 
-#include "../nsfwgl/nsfw.h"
+#include "nsfw.h"
 
 #include "Camera.h"
 #include "Geometry.h"
+
 
 class GPass : public nsfw::RenderPass
 {

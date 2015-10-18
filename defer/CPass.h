@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../nsfwgl/nsfw.h"
+#include "Render.h"
 
 #include "Camera.h"
 

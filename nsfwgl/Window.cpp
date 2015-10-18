@@ -1,3 +1,7 @@
+#include "Window.h"
+
+#include <glm\ext.hpp>
+
 #include "nsfw.h"
 
 void nsfw::Window::init(unsigned width, unsigned height)

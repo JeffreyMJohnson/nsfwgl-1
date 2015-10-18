@@ -3,7 +3,7 @@
 #include <glm\glm.hpp>
 #include <glm\ext.hpp>
 
-#include "../nsfwgl/nsfw.h"
+#include "Window.h"
 
 struct Camera
 {

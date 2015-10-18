@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../nsfwgl/nsfw.h"
+#include "Application.h"
 
 struct Camera;
 struct Geometry;

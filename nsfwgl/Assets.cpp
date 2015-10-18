@@ -1,4 +1,7 @@
+#include "Assets.h"
+
 #include "nsfw.h"
+#include "Vertex.h"
 
 using namespace nsfw::ASSET;
 
