@@ -13,6 +13,14 @@ namespace nsfw
 		glm::vec2 texCoord;
 	};
 
+	enum Offsets
+	{
+		POSITION_OFFSET		= 0,
+		NORMAL_OFFSET		= POSITION_OFFSET	+ sizeof(glm::vec4),
+		TANGENT_OFFSET		= NORMAL_OFFSET		+ sizeof(glm::vec4),
+		TEXCOORD_OFFSET		= TANGENT_OFFSET	+ sizeof(glm::vec2),
+	};
+
 	const vec4 up(0, 1, 0, 0);
 	const vec4 down = -up;
 	const vec4 right(1, 0, 0, 0);

@@ -127,7 +127,11 @@ namespace nsfw
 		// should load a shader from file
 		bool loadShader(const char *name, const char *vpath, const char *fpath);
 	
-		// should load from an FBX, adding assets to the library as they are discovered
+		/* should load from an FBX, adding assets to the library as they are discovered
+		   - fbx assets are loaded into the asset library using the following naming convention
+		       - name/meshName
+			   - name/textureName
+		*/
 		bool loadFBX(const char *name, const char *path);
 
 		// Should load an OBJ from file, adding appropriate assets to the library
@@ -137,5 +141,10 @@ namespace nsfw
 		void init();
 		// clear out all of the opengl handles!
 		void term();
+
+	private:
+
+		// generates, compiles, and returns a shader name to be linked in a program
+		int loadSubShader(unsigned int shaderType, const char * path);
 	};
 }
