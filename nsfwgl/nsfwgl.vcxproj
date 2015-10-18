@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\dep\glCore\gl_core_4_4.c" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="render.cpp" />
     <ClCompile Include="Window.cpp" />
