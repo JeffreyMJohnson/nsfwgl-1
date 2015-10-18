@@ -32,7 +32,7 @@ public:
 		setUniform("TexelScalar", nsfw::UNIFORM::MAT4, glm::value_ptr(nsfw::Window::instance().getTexelAdjustmentMatrix()));
 
 		unsigned quadVAOHandle = nsfw::Assets::instance().get<nsfw::ASSET::VAO>("Quad");
-		unsigned quadNumtris   = nsfw::Assets::instance().get<nsfw::ASSET::SIZE>("Quad");
+		unsigned quadNumtris   = nsfw::Assets::instance().get<nsfw::ASSET::INDEXCOUNT>("Quad");
 
 		TODO_D("GL BindVAO/DrawElements with quad size and vao");
 	}

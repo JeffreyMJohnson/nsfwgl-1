@@ -26,7 +26,7 @@ nsfw::GL_HANDLE nsfw::Assets::getVERIFIED(const AssetKey &key) const
 			return handles.at(key);
 }
 
-bool nsfw::Assets::setINTERNAL(ASSET::GL_HANDLE_TYPE t, char *name, GL_HANDLE handle)
+bool nsfw::Assets::setINTERNAL(ASSET::GL_HANDLE_TYPE t, const char *name, GL_HANDLE handle)
 {
 	AssetKey key(t, name);
 #ifdef _DEBUG
@@ -47,7 +47,7 @@ bool nsfw::Assets::makeVAO(const char * name, const struct Vertex *verts, unsign
 	ASSET_LOG(GL_HANDLE_TYPE::VBO);
 	ASSET_LOG(GL_HANDLE_TYPE::IBO);
 	ASSET_LOG(GL_HANDLE_TYPE::VAO);
-	ASSET_LOG(GL_HANDLE_TYPE::SIZE);
+	ASSET_LOG(GL_HANDLE_TYPE::INDEXCOUNT);
 	TODO_D("Should generate VBO, IBO, VAO, and SIZE using the parameters, storing them in the 'handles' map.\nThis is where vertex attributes are set!");
 	return false;
 }
