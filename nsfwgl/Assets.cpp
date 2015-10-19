@@ -211,7 +211,11 @@ int nsfw::Assets::loadSubShader(unsigned int shaderType, const char * path)
 {
 	assert(path != nullptr && "Path to shader source file must not be null!");
 
-	TODO_D("Validate the sub-shader path. If invalid, echo to std::cerr and return -1.");
+	if (!validateFilePath(path))
+	{
+		std::cerr << "The source for a sub-shader could not be found at" << path << std::endl;
+		return false;
+	}
 
 	std::ifstream in(path);
 	std::string contents((std::istreambuf_iterator<char>(in)),

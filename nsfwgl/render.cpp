@@ -2,19 +2,32 @@
 
 #include "nsfw.h"
 
+#include <glCore\gl_core_4_4.h>
 
 // Each Case should set up a uniform using the pass parameters
 bool nsfw::RenderPass::setUniform(const char *name, nsfw::UNIFORM::TYPE type, const void *value, unsigned count, bool normalize) 
 {
+	GLint uniformLocation = glGetUniformLocation(*shader, name);
+	assert(uniformLocation >= 0 && "Uniform must be 0 or greater to be valid!");
+
 	switch (type)
 	{
-	case nsfw::UNIFORM::FLO1: TODO_D("Setup float uniform!");     break;
-	case nsfw::UNIFORM::FLO3: TODO_D("Setup vec3 uniform!");      break;
-	case nsfw::UNIFORM::FLO4: TODO_D("Setup vec4 uniform!");      break;
-	case nsfw::UNIFORM::MAT4: TODO_D("Setup mat4 uniform!");	  break;
-	case nsfw::UNIFORM::INT1: TODO_D("Setup integer uniform!");	  break;
-	case nsfw::UNIFORM::TEX2: TODO_D("Setup texture2D uniform!"); break;
-	default:				  TODO_D("INVALID Uniform type.");	  break;
+	case nsfw::UNIFORM::FLO1: glUniform1f(uniformLocation, *(GLfloat*)value);								break;
+	case nsfw::UNIFORM::FLO3: glUniform3fv(uniformLocation, 1, (GLfloat*)value);							break;
+	case nsfw::UNIFORM::FLO4: glUniform4fv(uniformLocation, 1, (GLfloat*)value);							break;
+	case nsfw::UNIFORM::MAT4: glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, (const GLfloat*)value);		break;
+	case nsfw::UNIFORM::INT1: glUniform1i(uniformLocation, *(GLfloat*)value);								break;
+	case nsfw::UNIFORM::TEX2:
+		glUniform1i(uniformLocation, count);
+		glActiveTexture(GL_TEXTURE0 + count);
+		glBindTexture(GL_TEXTURE_2D, *(GL_HANDLE*)value);
+		break;
+	default:
+		//TODO_D("INVALID Uniform type.");
+		std::cerr << "An invalid uniform type was specified while attempting to set a uniform." << std::endl;
+		return false;
+
+		break;
 	}
 
 	return false;
