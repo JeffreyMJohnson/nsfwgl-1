@@ -11,6 +11,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "defer", "defer\defer.vcxpro
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "forward", "forward\forward.vcxproj", "{4503E360-0C93-40D9-971E-7BF618C6C13C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{84A3F7CF-0D6A-447C-BA5E-BBCC5CCB6F6B} = {84A3F7CF-0D6A-447C-BA5E-BBCC5CCB6F6B}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -27,16 +27,16 @@ void ForwardApplication::onInit()
 	auto &a = nsfw::Assets::instance();
 
 	// Load Shaders
-	a.loadShader("ForwardShader", "/resources/shaders/forward.vert", "/resources/shaders/forward.frag");
+	a.loadShader("ForwardShader", "resources/shaders/forward.vert", "resources/shaders/forward.frag");
 
 	// Load any other textures and geometry we want to use
-	a.loadFBX("Soulspear", "/path/to/souuuulspppeeeeaaar");
 	a.loadFBX("Cube", "/resources/models/cube.fbx");
+	a.loadFBX("Soulspear", "/path/to/souuuulspppeeeeaaar");
 }
 
 void ForwardApplication::onPlay()
 {
-	TODO_D("Initialize our scene objects!");
+	//TODO_D("Initialize our scene objects!");
 	m_camera    = new Camera;
 	m_cube		= new Geometry;
 	m_soulspear	= new Geometry;
@@ -44,8 +44,8 @@ void ForwardApplication::onPlay()
 	m_camera->lookAt(glm::vec3(10), glm::vec3(0), glm::vec3(0,1,0));
 
 	// provision geometry w/ asset names to use at render time
-	m_cube->mesh			= "Cube";
-	m_cube->tris			= "Cube";
+	m_cube->mesh			= "Cube/cube";
+	m_cube->tris			= "Cube/cube";
 	m_cube->diffuse			= "Cube/CubeDiffuse";	// loadFBX will need to name every handle it creates,
 	m_cube->normal			= "Cube/CubeNormal";		// These handle names may not be what your loadFBX sets 
 	m_cube->specular		= "Cube/CubeSpecular";	// them as! (Assets will report what the key names are though)
@@ -65,12 +65,12 @@ void ForwardApplication::onPlay()
 
 void ForwardApplication::onStep()
 {
-	TODO_D("Update our game objects-- IF THEY EVEN DO ANYTHING");
+	//TODO_D("Update our game objects-- IF THEY EVEN DO ANYTHING");
 	m_camera->update();
 	m_soulspear->update();
 	m_cube->update();
 	
-	TODO_D("Draw all of our renderpasses!");
+	//TODO_D("Draw all of our renderpasses!");
 	m_renderPass->prep();
 	m_renderPass->draw(*m_camera, *m_cube);
 	//m_renderPass->draw(*m_camera, *m_soulspear);
