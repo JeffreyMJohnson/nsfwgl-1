@@ -19,5 +19,6 @@ void main()
     vNormal = Normal;
     vTangent = Tangent;
     vTexCoord = TexCoord;
+    
     gl_Position = Projection * View * Model * Position;
 }

@@ -354,7 +354,7 @@ bool nsfw::Assets::loadFBX(const char * name, const char * path)
 	}
 #endif
 	FBXFile file;
-	if (!file.load(path, FBXFile::UNITS_CENTIMETER, true, false, true))
+	if (!file.load(path, FBXFile::UNITS_METER, true, false, true))
 	{
 		std::cerr << "Failed to load " << path << name << "!";
 		return false;
