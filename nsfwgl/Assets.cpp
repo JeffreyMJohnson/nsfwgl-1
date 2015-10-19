@@ -86,8 +86,15 @@ bool nsfw::Assets::makeVAO(const char * name, const struct Vertex *verts, unsign
 	assert(vao > 0 && vbo > 0 && ibo > 0 && "Buffers must be non-zero to be valid!");
 
 	glBindVertexArray(vao);
-	glBindBuffer(GL_VERTEX_ARRAY, vbo);
-	glBufferData(GL_VERTEX_ARRAY, sizeof(Vertex) * vsize, verts, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * vsize, verts, GL_STATIC_DRAW);
+
+#ifdef _DEBUG
+	assert(glGetError() == GL_NO_ERROR);
+	GLint bufferedVBODataSize = 0;
+	glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_BUFFER_SIZE, &bufferedVBODataSize);
+	assert(sizeof(Vertex) * vsize == bufferedVBODataSize && "Mismatch detected in vertex data size and buffer data size!");
+#endif
 
 	// NOTE! These need to correlate with the Vertex structure in Vertex.h!
 	glEnableVertexAttribArray(0);	// Position
@@ -103,8 +110,15 @@ bool nsfw::Assets::makeVAO(const char * name, const struct Vertex *verts, unsign
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * tsize, tris, GL_STATIC_DRAW);
 
+#ifdef _DEBUG
+	assert(glGetError() == GL_NO_ERROR);
+	GLint bufferedIBODataSize = 0;
+	glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &bufferedIBODataSize);
+	assert(sizeof(unsigned int) * tsize == bufferedIBODataSize && "Mismatch detected in index data size and buffer data size!");
+#endif
+
 	glBindVertexArray(0);
-	glBindBuffer(GL_VERTEX_ARRAY, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	setINTERNAL(ASSET::VAO, name, vao);
@@ -329,7 +343,10 @@ bool nsfw::Assets::loadFBX(const char * name, const char * path)
 		}
 
 		// and then make things from it!
-		std::string assetName = name + '/' + mesh->m_name;	// because I'm lazy (sorry esme, but fbx is already using it~)
+		std::string assetName = name;
+		assetName += '/';
+		assetName += mesh->m_name;	// because I'm lazy (sorry esme, but fbx is already using it~)
+
 		makeVAO(assetName.c_str(), verts, vertCount, &mesh->m_indices[0], mesh->m_indices.size());
 
 		delete[] verts;
@@ -360,7 +377,7 @@ void nsfw::Assets::init()
 	setINTERNAL(FBO,"Screen",0);
 	
 	makeVAO("Cube",CubeVerts,24,CubeTris,36);
-	makeVAO("Quad",QuadVerts, 4, QuadTris,6);
+	//makeVAO("Quad",QuadVerts, 4, QuadTris,6);
 	/*
 	char w[] = { 255,255,255,255 };
 	makeTexture("White", 1, 1, GL_RGB8, w);
