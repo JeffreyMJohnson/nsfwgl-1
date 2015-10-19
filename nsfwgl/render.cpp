@@ -30,7 +30,7 @@ bool nsfw::RenderPass::setUniform(const char *name, nsfw::UNIFORM::TYPE type, co
 		break;
 	}
 
-	return false;
+	return true;
 }
 
 // set GL state settings and globally accessible uniforms! Should be called before rendering occurs!

@@ -10,6 +10,8 @@ void nsfw::Window::init(unsigned width, unsigned height)
 {
 	//TODO_D("Should create and set an active windowing context. ONLY GLFW! No GL!");
 	assert(width > 0 && height > 0);	// validate window size
+	this->width = width;
+	this->height = height;
 
 	int status = 0;
 	status = glfwInit();
