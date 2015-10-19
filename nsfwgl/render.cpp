@@ -19,16 +19,8 @@ bool nsfw::RenderPass::setUniform(const char *name, nsfw::UNIFORM::TYPE type, co
 	case nsfw::UNIFORM::INT1: glUniform1i(uniformLocation, *(GLint*)value);									break;
 	case nsfw::UNIFORM::TEX2:
 	{
-		// THIS IS NOT SAFE
-		// THIS IS NOT PORTABLE
-		// THIS ONLY COMPILES ON MSVC
-		// "Magic must defeat magic!" - Uncle
-		void * danger = ((char*&)value)+8;
-		AssetKey * key = (AssetKey*)danger;
-		int textureName = Assets::instance().get(*key);
-
 		glActiveTexture(GL_TEXTURE0 + count);
-		glBindTexture(GL_TEXTURE_2D, textureName);
+		glBindTexture(GL_TEXTURE_2D, *(unsigned*)value);
 		glUniform1i(uniformLocation, count);
 		break;
 	}

@@ -23,7 +23,7 @@ void RPass::draw(const Camera &c, const Geometry &g)
 	setUniform("View", nsfw::UNIFORM::TYPE::MAT4, glm::value_ptr(c.getView()));
 	setUniform("Model", nsfw::UNIFORM::TYPE::MAT4, glm::value_ptr(g.transform));
 
-	setUniform("Diffuse", nsfw::UNIFORM::TEX2, g.diffuse, 0);
+	setUniform("Diffuse", nsfw::UNIFORM::TEX2, &g.diffuse, 0);
 
 	TODO_D("Support advanced lighting and texturing.");
 
