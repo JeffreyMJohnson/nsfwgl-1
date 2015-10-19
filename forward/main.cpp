@@ -32,6 +32,8 @@ void ForwardApplication::onInit()
 	// Load any other textures and geometry we want to use
 	a.loadFBX("Cube", "resources/models/cube.fbx");
 	a.loadFBX("Soulspear", "resources/models/soulspear/soulspear.fbx");
+
+	a.loadTexture("uvtest.png", "resources/textures/uvtest.png");
 }
 
 void ForwardApplication::onPlay()
@@ -41,7 +43,7 @@ void ForwardApplication::onPlay()
 	m_cube		= new Geometry;
 	m_soulspear	= new Geometry;
 
-	m_camera->lookAt(glm::vec3(10), glm::vec3(0), glm::vec3(0,1,0));
+	m_camera->lookAt(glm::vec3(1), glm::vec3(0), glm::vec3(0,1,0));
 
 	// provision geometry w/ asset names to use at render time
 	m_cube->mesh			= "Cube/cube";
@@ -52,9 +54,10 @@ void ForwardApplication::onPlay()
 	m_cube->specPower		= 40.0f;
 	m_cube->transform		= glm::mat4(1);
 
-	m_soulspear->mesh		= "Soulspear";
-	m_soulspear->tris		= "Soulspear";
-	m_soulspear->diffuse	= "Soulspear/soulspear_diffuse.tga";	// loadFBX will need to name every handle it creates,
+	m_soulspear->mesh		= "Soulspear/SoulSpear_Low:SoulSpear_Low1";
+	m_soulspear->tris		= "Soulspear/SoulSpear_Low:SoulSpear_Low1";
+	//m_soulspear->diffuse	= "Soulspear/soulspear_diffuse.tga";	// loadFBX will need to name every handle it creates,
+	m_soulspear->diffuse	= "uvtest.png";	// loadFBX will need to name every handle it creates,
 	m_soulspear->normal		= "Soulspear/soulspear_normal.tga";		// These handle names may not be what your loadFBX sets 
 	m_soulspear->specular	= "Soulspear/soulspear_specular.tga";	// them as! (Assets will report what the key names are though)
 	m_soulspear->specPower	= 40.0f;
@@ -72,8 +75,8 @@ void ForwardApplication::onStep()
 	
 	//TODO_D("Draw all of our renderpasses!");
 	m_renderPass->prep();
-	m_renderPass->draw(*m_camera, *m_cube);
-	//m_renderPass->draw(*m_camera, *m_soulspear);
+	//m_renderPass->draw(*m_camera, *m_cube);
+	m_renderPass->draw(*m_camera, *m_soulspear);
 	m_renderPass->post();
 }
 

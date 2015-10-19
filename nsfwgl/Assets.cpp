@@ -6,7 +6,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+
 #include <fbxLoader\FBXFile.h>
+#include <stb\stb_image.h>
 #include <glCore\gl_core_4_4.h>
 
 #include "nsfw.h"
@@ -153,7 +155,7 @@ bool nsfw::Assets::makeFBO(const char * name, unsigned w, unsigned h, unsigned n
 bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsigned depth, const char *pixels)
 {
 	ASSET_LOG(GL_HANDLE_TYPE::TEXTURE);
-	TODO_D("Allocate a texture using the given space/dimensions. Should work if 'pixels' is null, so that you can use this same function with makeFBO\n note that Dept will use a GL value.");
+	//TODO_D("Allocate a texture using the given space/dimensions. Should work if 'pixels' is null, so that you can use this same function with makeFBO\n note that Dept will use a GL value.");
 
 	assert(name != nullptr);
 	assert(w > 0 && h > 0);
@@ -199,7 +201,8 @@ bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsign
 
 bool nsfw::Assets::loadTexture(const char * name, const char * path)
 {
-	TODO_D("This should load a texture from a file, using makeTexture to perform the allocation.\nUse STBI, and make sure you switch the format STBI provides to match what openGL needs!");
+	//TODO_D("This should load a texture from a file, using makeTexture to perform the allocation.\nUse STBI, and make sure you switch the format STBI provides to match what openGL needs!");
+	assert(name != nullptr && path != nullptr);
 
 #ifdef _DEBUG
 	if (!validateFilePath(path))
@@ -208,11 +211,25 @@ bool nsfw::Assets::loadTexture(const char * name, const char * path)
 		return false;
 	}
 #endif
+	
+	int imgWidth = 0, imgHeight = 0, imgFormat = 0;
+	const char * pixelData = (const char *)stbi_load(path, &imgWidth, &imgHeight, &imgFormat, STBI_default);
 
-	assert(name != nullptr && path != nullptr);
-	assert(false && "Needs STBI for Implementation");
+	if (nullptr == pixelData)
+	{
+		std::cerr << "A problem occurred while loading a texture: " << stbi_failure_reason() << std::endl;
+		return false;
+	}
 
-	return false;
+	// showing off - http://stackoverflow.com/a/160887
+	imgFormat = (imgFormat == 1) ? GL_RED :
+				(imgFormat == 2) ? GL_RG :
+				(imgFormat == 3) ? GL_RGB : GL_RGBA;
+
+	makeTexture(name, imgWidth, imgHeight, imgFormat, pixelData);
+	stbi_image_free((void*)pixelData);
+
+	return true;
 }
 
 int nsfw::Assets::loadSubShader(unsigned int shaderType, const char * path)
@@ -375,18 +392,30 @@ bool nsfw::Assets::loadFBX(const char * name, const char * path)
 
 	// load texture data
 	// we'll load them via our methods so we can control their creation parameters
+	//
+	// actually, it doesn't seem like we can get the paths w/o getting them loaded in,
+	// so we'll let FBX handle the pixel load, but load then into OGL ourselves
 	for (int textureIndex = 0; textureIndex < file.getTextureCount(); ++textureIndex)
 	{
 		auto * tex = file.getTextureByIndex(textureIndex);
+
+		// skip over it if the data wasn't loaded
+		if (tex->data == nullptr)
+		{
+			continue;
+		}
 
 		std::string assetName = name;
 		assetName += '/';
 		assetName += tex->name;
 
-		loadTexture(assetName.c_str(), tex->path.c_str());
-	}
+		// convert from STB format to OpenGL
+		int texFormat = (tex->format == 1) ? GL_RED :
+						(tex->format == 2) ? GL_RG :
+						(tex->format == 3) ? GL_RGB : GL_RGBA;
 
-	TODO_D("Load FBX textures.");
+		makeTexture(assetName.c_str(), tex->width, tex->height, texFormat, (const char *)tex->data);
+	}
 
 	file.unload();
 
@@ -406,8 +435,6 @@ bool nsfw::Assets::loadOBJ(const char * name, const char * path)
 
 void nsfw::Assets::init()
 {
-	TODO_D("Load up some default assets here if you want.");
-	
 	setINTERNAL(FBO,"Screen",0);
 	
 	makeVAO("Cube",CubeVerts,24,CubeTris,36);

@@ -1,8 +1,16 @@
 #version 410
-in vec4 vColor;
+
+in vec4 vNormal;
+in vec4 vTangent;
+in vec2 vTexCoord;
+
 out vec4 FragColor;
+
+uniform sampler2D Diffuse;
 
 void main()
 {
-    FragColor = vColor;
+
+    FragColor = texture(Diffuse, vTexCoord);
+    //FragColor = vec4(vNormal.xyz, 1);
 }

@@ -18,7 +18,7 @@ namespace nsfw
 		POSITION_OFFSET		= 0,
 		NORMAL_OFFSET		= POSITION_OFFSET	+ sizeof(glm::vec4),
 		TANGENT_OFFSET		= NORMAL_OFFSET		+ sizeof(glm::vec4),
-		TEXCOORD_OFFSET		= TANGENT_OFFSET	+ sizeof(glm::vec2),
+		TEXCOORD_OFFSET		= TANGENT_OFFSET	+ sizeof(glm::vec4),
 	};
 
 	const vec4 up(0, 1, 0, 0);

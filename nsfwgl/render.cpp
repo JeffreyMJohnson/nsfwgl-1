@@ -16,12 +16,22 @@ bool nsfw::RenderPass::setUniform(const char *name, nsfw::UNIFORM::TYPE type, co
 	case nsfw::UNIFORM::FLO3: glUniform3fv(uniformLocation, 1, (GLfloat*)value);							break;
 	case nsfw::UNIFORM::FLO4: glUniform4fv(uniformLocation, 1, (GLfloat*)value);							break;
 	case nsfw::UNIFORM::MAT4: glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, (const GLfloat*)value);		break;
-	case nsfw::UNIFORM::INT1: glUniform1i(uniformLocation, *(GLint*)value);								break;
+	case nsfw::UNIFORM::INT1: glUniform1i(uniformLocation, *(GLint*)value);									break;
 	case nsfw::UNIFORM::TEX2:
-		glUniform1i(uniformLocation, count);
+	{
+		// THIS IS NOT SAFE
+		// THIS IS NOT PORTABLE
+		// THIS ONLY COMPILES ON MSVC
+		// "Magic must defeat magic!" - Uncle
+		void * danger = ((char*&)value)+8;
+		AssetKey * key = (AssetKey*)danger;
+		int textureName = Assets::instance().get(*key);
+
 		glActiveTexture(GL_TEXTURE0 + count);
-		glBindTexture(GL_TEXTURE_2D, *(GL_HANDLE*)value);
+		glBindTexture(GL_TEXTURE_2D, textureName);
+		glUniform1i(uniformLocation, count);
 		break;
+	}
 	default:
 		//TODO_D("INVALID Uniform type.");
 		std::cerr << "An invalid uniform type was specified while attempting to set a uniform." << std::endl;
