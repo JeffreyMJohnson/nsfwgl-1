@@ -201,6 +201,14 @@ bool nsfw::Assets::loadTexture(const char * name, const char * path)
 {
 	TODO_D("This should load a texture from a file, using makeTexture to perform the allocation.\nUse STBI, and make sure you switch the format STBI provides to match what openGL needs!");
 
+#ifdef _DEBUG
+	if (!validateFilePath(path))
+	{
+		std::cerr << "A texture could not be found at " << path << std::endl;
+		return false;
+	}
+#endif
+
 	assert(name != nullptr && path != nullptr);
 	assert(false && "Needs STBI for Implementation");
 
@@ -211,11 +219,13 @@ int nsfw::Assets::loadSubShader(unsigned int shaderType, const char * path)
 {
 	assert(path != nullptr && "Path to shader source file must not be null!");
 
+#ifdef _DEBUG
 	if (!validateFilePath(path))
 	{
-		std::cerr << "The source for a sub-shader could not be found at" << path << std::endl;
+		std::cerr << "The source for a sub-shader could not be found at " << path << std::endl;
 		return false;
 	}
+#endif
 
 	std::ifstream in(path);
 	std::string contents((std::istreambuf_iterator<char>(in)),
@@ -319,8 +329,15 @@ bool nsfw::Assets::loadFBX(const char * name, const char * path)
 
 	assert(name != nullptr && path != nullptr);	// validate name and path is not null
 
+#ifdef _DEBUG
+	if (!validateFilePath(path))
+	{
+		std::cerr << "Could not locate the FBX file located at " << path << std::endl;
+		return false;
+	}
+#endif
 	FBXFile file;
-	if (!file.load(path, FBXFile::UNITS_CENTIMETER, false, false, true))
+	if (!file.load(path, FBXFile::UNITS_CENTIMETER, true, false, true))
 	{
 		std::cerr << "Failed to load " << path << name << "!";
 		return false;
@@ -356,6 +373,19 @@ bool nsfw::Assets::loadFBX(const char * name, const char * path)
 		delete[] verts;
 	}
 
+	// load texture data
+	// we'll load them via our methods so we can control their creation parameters
+	for (int textureIndex = 0; textureIndex < file.getTextureCount(); ++textureIndex)
+	{
+		auto * tex = file.getTextureByIndex(textureIndex);
+
+		std::string assetName = name;
+		assetName += '/';
+		assetName += tex->name;
+
+		loadTexture(assetName.c_str(), tex->path.c_str());
+	}
+
 	TODO_D("Load FBX textures.");
 
 	file.unload();
@@ -381,7 +411,7 @@ void nsfw::Assets::init()
 	setINTERNAL(FBO,"Screen",0);
 	
 	makeVAO("Cube",CubeVerts,24,CubeTris,36);
-	//makeVAO("Quad",QuadVerts, 4, QuadTris,6);
+	makeVAO("Quad",QuadVerts, 4, QuadTris,6);
 	/*
 	char w[] = { 255,255,255,255 };
 	makeTexture("White", 1, 1, GL_RGB8, w);

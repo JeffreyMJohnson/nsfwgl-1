@@ -30,8 +30,8 @@ void ForwardApplication::onInit()
 	a.loadShader("ForwardShader", "resources/shaders/forward.vert", "resources/shaders/forward.frag");
 
 	// Load any other textures and geometry we want to use
-	a.loadFBX("Cube", "/resources/models/cube.fbx");
-	a.loadFBX("Soulspear", "/path/to/souuuulspppeeeeaaar");
+	a.loadFBX("Cube", "resources/models/cube.fbx");
+	a.loadFBX("Soulspear", "resources/models/soulspear/soulspear.fbx");
 }
 
 void ForwardApplication::onPlay()
@@ -54,9 +54,9 @@ void ForwardApplication::onPlay()
 
 	m_soulspear->mesh		= "Soulspear";
 	m_soulspear->tris		= "Soulspear";
-	m_soulspear->diffuse	= "SoulspearDiffuse";	// loadFBX will need to name every handle it creates,
-	m_soulspear->normal		= "SoulspearNormal";		// These handle names may not be what your loadFBX sets 
-	m_soulspear->specular	= "SoulspearSpecular";	// them as! (Assets will report what the key names are though)
+	m_soulspear->diffuse	= "Soulspear/soulspear_diffuse.tga";	// loadFBX will need to name every handle it creates,
+	m_soulspear->normal		= "Soulspear/soulspear_normal.tga";		// These handle names may not be what your loadFBX sets 
+	m_soulspear->specular	= "Soulspear/soulspear_specular.tga";	// them as! (Assets will report what the key names are though)
 	m_soulspear->specPower	= 40.0f;
 	m_soulspear->transform	= glm::mat4(1);
 

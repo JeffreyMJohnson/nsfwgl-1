@@ -16,7 +16,7 @@ bool nsfw::RenderPass::setUniform(const char *name, nsfw::UNIFORM::TYPE type, co
 	case nsfw::UNIFORM::FLO3: glUniform3fv(uniformLocation, 1, (GLfloat*)value);							break;
 	case nsfw::UNIFORM::FLO4: glUniform4fv(uniformLocation, 1, (GLfloat*)value);							break;
 	case nsfw::UNIFORM::MAT4: glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, (const GLfloat*)value);		break;
-	case nsfw::UNIFORM::INT1: glUniform1i(uniformLocation, *(GLfloat*)value);								break;
+	case nsfw::UNIFORM::INT1: glUniform1i(uniformLocation, *(GLint*)value);								break;
 	case nsfw::UNIFORM::TEX2:
 		glUniform1i(uniformLocation, count);
 		glActiveTexture(GL_TEXTURE0 + count);
