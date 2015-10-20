@@ -9,7 +9,6 @@ void CPass::prep()
 	// renders a quad and combines albedo and light
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
-
 	// is this viewport okay?
 	/*auto &window = nsfw::Window::instance();
 	glViewport(0, 0, window.getWidth(), window.getHeight());*/
@@ -28,7 +27,7 @@ void CPass::post()
 void CPass::draw()
 {
 	// Set uniforms for textures we're going to composite-> NAMES ARE FROM SHADER!
-	//setUniform("Albedo", nsfw::UNIFORM::TEX2, albedo, 0);
+	setUniform("Albedo", nsfw::UNIFORM::TEX2, albedo, 0);
 	//setUniform("Position", nsfw::UNIFORM::TEX2, position, 1);
 	//setUniform("Normal", nsfw::UNIFORM::TEX2, normal, 2);
 	//setUniform("Depth", nsfw::UNIFORM::TEX2, depth, 3);

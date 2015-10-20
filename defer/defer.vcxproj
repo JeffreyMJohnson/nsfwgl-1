@@ -132,6 +132,7 @@
   <ItemGroup>
     <ClCompile Include="CPass.cpp" />
     <ClCompile Include="GPass.cpp" />
+    <ClCompile Include="LPass.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

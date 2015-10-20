@@ -8,7 +8,7 @@
 bool nsfw::RenderPass::setUniform(const char *name, nsfw::UNIFORM::TYPE type, const void *value, unsigned count, bool normalize) 
 {
 	GLint uniformLocation = glGetUniformLocation(*shader, name);
-	assert(uniformLocation >= 0 && "Uniform must be 0 or greater to be valid!");
+	//assert(uniformLocation >= 0 && "Uniform must be 0 or greater to be valid!");
 
 	switch (type)
 	{

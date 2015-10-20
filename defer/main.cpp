@@ -95,9 +95,9 @@ void DeferredApplication::onStep()
 	m_soulspear->update();
 	
 	//TODO_D("Draw all of our renderpasses!");
-	//m_geometryPass->prep();
-	//m_geometryPass->draw(*m_camera, *m_cube);
-	//m_geometryPass->post();
+	m_geometryPass->prep();
+	m_geometryPass->draw(*m_camera, *m_cube);
+	m_geometryPass->post();
 
 	//m_directionalLightPass->prep();
 	//m_directionalLightPass->draw(*m_camera, *m_light);
