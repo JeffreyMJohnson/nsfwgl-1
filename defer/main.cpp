@@ -58,13 +58,13 @@ void DeferredApplication::onPlay()
 	m_cube		= new Geometry;
 	m_soulspear = new Geometry;
 
-	m_camera->lookAt(glm::vec3(10), glm::vec3(0), glm::vec3(0,1,0));
+	m_camera->lookAt(glm::vec3(5), glm::vec3(0), glm::vec3(0,1,0));
 
 	m_light->color      = glm::vec3(1, 1, 1);
 	m_light->direction = glm::normalize(glm::vec3(1, 1, 0));
 
-	m_cube->mesh			= "Cube/cube";
-	m_cube->tris			= "Cube/cube";
+	m_cube->mesh			= "Cube";
+	m_cube->tris			= "Cube";
 	m_cube->diffuse			= "Soulspear/soulspear_diffuse.tga";	// loadFBX will need to name every handle it creates,
 	m_cube->normal			= "Soulspear/soulspear_normal.tga";		// These handle names may not be what your loadFBX sets 
 	m_cube->specular		= "Soulspear/soulspear_specular.tga";	// them as! (Assets will report what the key names are though)
@@ -99,9 +99,9 @@ void DeferredApplication::onStep()
 	m_geometryPass->draw(*m_camera, *m_cube);
 	m_geometryPass->post();
 
-	//m_directionalLightPass->prep();
-	//m_directionalLightPass->draw(*m_camera, *m_light);
-	//m_directionalLightPass->post();
+	m_directionalLightPass->prep();
+	m_directionalLightPass->draw(*m_camera, *m_light);
+	m_directionalLightPass->post();
 
 	m_compositePass->prep();
 	m_compositePass->draw();

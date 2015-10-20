@@ -21,5 +21,7 @@ void main()
 	vNormal   = normalize(View * Normal);
     vTexCoord = TexCoord;
 	
-	gl_Position = Projection * View * Model * Position;
+    gl_Position = Projection * View * Model * Position;
+	//gl_Position = vec4((Projection * View * Model * Position).xy, 0, 1);
+    //gl_Position = vec4(1,1,1,1);
 }

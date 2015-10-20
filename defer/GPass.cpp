@@ -2,12 +2,17 @@
 
 #include <glCore\gl_core_4_4.h>
 
+#include <glm\glm.hpp>
+
 void GPass::prep()
 {
 	// renders the albedo, position, and normal
+	glDepthMask(true);
 	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, *fbo);
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	//TODO_D("HARD CODED VIEWPORT VALUES!!!");
 
@@ -20,7 +25,9 @@ void GPass::prep()
 
 void GPass::post()
 {
+	glDepthMask(GL_FALSE);
 	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
 }
 
 void GPass::draw(const Camera &c, const Geometry &g)
@@ -34,6 +41,9 @@ void GPass::draw(const Camera &c, const Geometry &g)
 	//setUniform("Specular", nsfw::UNIFORM::TEX2, g.specular, 2);
 
 	//setUniform("SpecularPower", nsfw::UNIFORM::FLO1, (void*)&g.specPower);
+
+	auto gl_PositionAlt = c.getProjection() * c.getView() * g.transform * glm::vec4(-1, -1, 1, 1);
+	auto gl_Position = c.getProjection() * c.getView() * g.transform * glm::vec4(-1, -1, 1, 1);
 
 	glBindVertexArray(*g.mesh);
 	glDrawElements(GL_TRIANGLES, *g.tris, GL_UNSIGNED_INT, 0);

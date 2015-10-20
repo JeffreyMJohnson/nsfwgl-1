@@ -152,7 +152,7 @@ bool nsfw::Assets::makeFBO(const char * name, unsigned w, unsigned h, unsigned n
 		makeTexture(names[depthIndex], w, h, depths[depthIndex]);
 
 		GLenum attachment = (depths[depthIndex] == GL_DEPTH_COMPONENT) ? GL_DEPTH_ATTACHMENT : (GL_COLOR_ATTACHMENT0 + colorAttachmentCount++);
-		glFramebufferTexture(GL_FRAMEBUFFER, attachment, get(TEXTURE, names[depthIndex]), 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, get(TEXTURE, names[depthIndex]), 0);
 	}
 
 	// generate rbo
