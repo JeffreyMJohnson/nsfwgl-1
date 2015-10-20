@@ -134,22 +134,57 @@ bool nsfw::Assets::makeVAO(const char * name, const struct Vertex *verts, unsign
 bool nsfw::Assets::makeFBO(const char * name, unsigned w, unsigned h, unsigned nTextures, const char * names[], const unsigned depths[])
 {
 	ASSET_LOG(GL_HANDLE_TYPE::FBO);
+	//ASSET_LOG(GL_HANDLE_TYPE::RBO);
 	//TODO_D("Create an FBO! Array parameters are for the render targets, which this function should also generate!\nuse makeTexture.\nNOTE THAT THERE IS NO FUNCTION SETUP FOR MAKING RENDER BUFFER OBJECTS.");
 
 	assert(name != nullptr);
 	assert(w > 0 && h > 0);
 
-	assert(false && "Needs Implementation");
-
-	return false;
-
 	GLuint fbo;
+
 	glGenFramebuffers(1, &fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
+	// generate textures
+	int colorAttachmentCount = 0;
+	for (int depthIndex = 0; depthIndex < nTextures; ++depthIndex)
+	{
+		makeTexture(names[depthIndex], w, h, depths[depthIndex]);
 
+		GLenum attachment = (depths[depthIndex] == GL_DEPTH_COMPONENT) ? GL_DEPTH_ATTACHMENT : (GL_COLOR_ATTACHMENT0 + colorAttachmentCount++);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, get(TEXTURE, names[depthIndex]), 0);
+		assert(glGetError() == GL_NO_ERROR);
+	}
 
-	return false;
+	// generate rbo
+	//glGenRenderbuffers(1, &rbo);
+	//glBindRenderbuffer(GL_RENDERBUFFER, rbo);
+	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, w, h);
+
+	// rebuild color attachments used
+
+	GLenum * colorAttachments = new GLenum[colorAttachmentCount];
+	for (int i = 0; i < colorAttachmentCount; ++i)
+	{
+		colorAttachments[i] = GL_COLOR_ATTACHMENT0 + i;
+	}
+	glDrawBuffers(colorAttachmentCount, colorAttachments);
+	assert(glGetError() == GL_NO_ERROR);
+	delete[] colorAttachments;
+
+#ifdef _DEBUG
+	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE);
+	{
+		std::cerr << "A framebuffer failed to validate." << std::endl;
+		glBindFramebuffer(GL_FRAMEBUFFER,0);
+		return false;
+	}
+#endif
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	setINTERNAL(ASSET::FBO, name, fbo);
+
+	return true;
 }
 
 bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsigned depth, const char *pixels)

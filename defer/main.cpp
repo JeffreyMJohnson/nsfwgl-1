@@ -1,6 +1,8 @@
 
 #include "DefApp.h"
 
+#include <glCore\gl_core_4_4.h>
+
 #include "Geometry.h"
 #include "Light.h"
 #include "Camera.h"
@@ -8,6 +10,7 @@
 #include "GPass.h"
 #include "CPass.h"
 #include "LPassD.h"
+
 
 using namespace nsfw;
 
@@ -22,7 +25,6 @@ int main()
 	system("pause");
 }
 
-
 void DeferredApplication::onInit()
 {
 	auto &w = nsfw::Window::instance();
@@ -30,11 +32,11 @@ void DeferredApplication::onInit()
 
 	// Setup FBOs
 	const char *gpassTextureNames[] = { "GPassAlbedo","GPassPosition","GPassNormal","GPassDepth" };
-	const unsigned gpassDepths[] = { 0,0,0,0 }; // GL_RGB8, GL_RGB32, GL_RGB32, GL_DEPTH_COMPONENT
+	const unsigned gpassDepths[] = { GL_RGB8, GL_RGB32F, GL_RGB32F, GL_DEPTH_COMPONENT }; // GL_RGB8, GL_RGB32, GL_RGB32, GL_DEPTH_COMPONENT
 	a.makeFBO("GeometryPass", w.getWidth(), w.getHeight(), 4, gpassTextureNames, gpassDepths);
 
 	const char *lpassTextureNames[] = { "LPassColor" };
-	const unsigned lpassDepths[] = { 0 }; // GL_RGB8
+	const unsigned lpassDepths[] = { GL_RGB8 }; // GL_RGB8
 	a.makeFBO("LightPass", w.getWidth(), w.getHeight(), 1, lpassTextureNames, lpassDepths); 
 
 	// Load Shaders
