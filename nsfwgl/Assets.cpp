@@ -152,8 +152,7 @@ bool nsfw::Assets::makeFBO(const char * name, unsigned w, unsigned h, unsigned n
 		makeTexture(names[depthIndex], w, h, depths[depthIndex]);
 
 		GLenum attachment = (depths[depthIndex] == GL_DEPTH_COMPONENT) ? GL_DEPTH_ATTACHMENT : (GL_COLOR_ATTACHMENT0 + colorAttachmentCount++);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, get(TEXTURE, names[depthIndex]), 0);
-		assert(glGetError() == GL_NO_ERROR);
+		glFramebufferTexture(GL_FRAMEBUFFER, attachment, get(TEXTURE, names[depthIndex]), 0);
 	}
 
 	// generate rbo
@@ -169,13 +168,23 @@ bool nsfw::Assets::makeFBO(const char * name, unsigned w, unsigned h, unsigned n
 		colorAttachments[i] = GL_COLOR_ATTACHMENT0 + i;
 	}
 	glDrawBuffers(colorAttachmentCount, colorAttachments);
-	assert(glGetError() == GL_NO_ERROR);
 	delete[] colorAttachments;
 
 #ifdef _DEBUG
-	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE);
+	GLenum framebufferStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if(framebufferStatus != GL_FRAMEBUFFER_COMPLETE)
 	{
 		std::cerr << "A framebuffer failed to validate." << std::endl;
+
+		std::cerr << (framebufferStatus == GL_FRAMEBUFFER_UNDEFINED)					 ? "GL_FRAMEBUFFER_UNDEFINED"						:
+					 (framebufferStatus == GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT)		 ? "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT"			:
+					 (framebufferStatus == GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT) ? "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT"	:
+					 (framebufferStatus == GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER)		 ? "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER"			:
+					 (framebufferStatus == GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER)		 ? "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER"			:
+					 (framebufferStatus == GL_FRAMEBUFFER_UNSUPPORTED)					 ? "GL_FRAMEBUFFER_UNSUPPORTED"						:
+																						   "OTHER GL_FRAMEBUFFER_ERROR";
+		std::cerr << std::endl;
+
 		glBindFramebuffer(GL_FRAMEBUFFER,0);
 		return false;
 	}
