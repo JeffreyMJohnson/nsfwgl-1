@@ -74,8 +74,8 @@ void ForwardApplication::onStep()
 	
 	//TODO_D("Draw all of our renderpasses!");
 	m_renderPass->prep();
-	//m_renderPass->draw(*m_camera, *m_cube);
-	m_renderPass->draw(*m_camera, *m_soulspear);
+	m_renderPass->draw(*m_camera, *m_cube);
+	//m_renderPass->draw(*m_camera, *m_soulspear);
 	m_renderPass->post();
 }
 

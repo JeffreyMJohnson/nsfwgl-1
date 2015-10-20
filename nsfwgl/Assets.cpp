@@ -170,8 +170,7 @@ bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsign
 	// if 'pixels' is NULL, this is intended to be used w/ a FBO
 	if (nullptr == pixels && depth != GL_DEPTH_COMPONENT)
 	{
-		auto& windowInst = Window::instance();
-		glTexStorage2D(GL_TEXTURE_2D, 1, depth, windowInst.getWidth(), windowInst.getHeight());
+		glTexStorage2D(GL_TEXTURE_2D, 1, depth, w, h);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
