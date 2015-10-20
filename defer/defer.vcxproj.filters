@@ -22,10 +22,19 @@
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{74218af7-3561-47be-8d6a-26a7e7e6220f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Passes">
+      <UniqueIdentifier>{f3deb35f-ae66-4f2d-9f90-abd779a25c6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GPass.cpp">
+      <Filter>Source Files\Passes</Filter>
+    </ClCompile>
+    <ClCompile Include="CPass.cpp">
+      <Filter>Source Files\Passes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

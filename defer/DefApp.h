@@ -13,6 +13,7 @@ class CPass;
 class DeferredApplication : public nsfw::Application
 {
 	Camera   *m_camera;
+	Geometry *m_cube;
 	Geometry *m_soulspear;
 	LightD	 *m_light;
 
