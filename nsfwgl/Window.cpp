@@ -1,8 +1,8 @@
-#include "Window.h"
-
-#include <glm\ext.hpp>
-#include <glCore\gl_core_4_4.h>
-#include <glfw\glfw3.h>
+//#include "Window.h"
+//
+//#include <glm\ext.hpp>
+//#include <glCore\gl_core_4_4.h>
+//#include <glfw\glfw3.h>
 
 #include "nsfw.h"
 

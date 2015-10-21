@@ -46,7 +46,7 @@ void DeferredApplication::onInit()
 	a.loadShader("CompPass", "resources/shaders/cpass.vert", "resources/shaders/cpass.frag");
 
 	// Load any other textures and geometry we want to use
-	a.loadFBX("Cube", "resources/models/cube.fbx");
+	//a.loadFBX("Cube", "resources/models/cube.fbx");
 	a.loadFBX("Soulspear", "resources/models/Soulspear/soulspear.fbx");
 }
 
@@ -55,21 +55,21 @@ void DeferredApplication::onPlay()
 	//TODO_D("Initialize our scene objects!");
 	m_camera    = new Camera;
 	m_light     = new LightD;
-	m_cube		= new Geometry;
+	//m_cube		= new Geometry;
 	m_soulspear = new Geometry;
 
-	m_camera->lookAt(glm::vec3(5), glm::vec3(0), glm::vec3(0,1,0));
+	m_camera->lookAt(glm::vec3(10), glm::vec3(0), glm::vec3(0,1,0));
 
 	m_light->color      = glm::vec3(1, 1, 1);
 	m_light->direction = glm::normalize(glm::vec3(1, 1, 0));
 
-	m_cube->mesh			= "Cube";
-	m_cube->tris			= "Cube";
-	m_cube->diffuse			= "Soulspear/soulspear_diffuse.tga";	// loadFBX will need to name every handle it creates,
-	m_cube->normal			= "Soulspear/soulspear_normal.tga";		// These handle names may not be what your loadFBX sets 
-	m_cube->specular		= "Soulspear/soulspear_specular.tga";	// them as! (Assets will report what the key names are though)
-	m_cube->specPower		= 40.0f;
-	m_cube->transform		= glm::mat4(1);
+	//m_cube->mesh			= "Cube";
+	//m_cube->tris			= "Cube";
+	//m_cube->diffuse			= "Soulspear/soulspear_diffuse.tga";	// loadFBX will need to name every handle it creates,
+	//m_cube->normal			= "Soulspear/soulspear_normal.tga";		// These handle names may not be what your loadFBX sets 
+	//m_cube->specular		= "Soulspear/soulspear_specular.tga";	// them as! (Assets will report what the key names are though)
+	//m_cube->specPower		= 40.0f;
+	//m_cube->transform		= glm::mat4(1);
 
 	m_soulspear->mesh		= "Soulspear/SoulSpear_Low:SoulSpear_Low1";
 	m_soulspear->tris		= "Soulspear/SoulSpear_Low:SoulSpear_Low1";
@@ -91,17 +91,17 @@ void DeferredApplication::onStep()
 	//TODO_D("Update our game objects-- IF THEY EVEN DO ANYTHING");
 	m_light->update();
 	m_camera->update();
-	m_cube->update();
+	//m_cube->update();
 	m_soulspear->update();
 	
 	//TODO_D("Draw all of our renderpasses!");
 	m_geometryPass->prep();
-	m_geometryPass->draw(*m_camera, *m_cube);
+	m_geometryPass->draw(*m_camera, *m_soulspear);
 	m_geometryPass->post();
 
-	//m_directionalLightPass->prep();
-	//m_directionalLightPass->draw(*m_camera, *m_light);
-	//m_directionalLightPass->post();
+	m_directionalLightPass->prep();
+	m_directionalLightPass->draw(*m_camera, *m_light);
+	m_directionalLightPass->post();
 
 	m_compositePass->prep();
 	m_compositePass->draw();

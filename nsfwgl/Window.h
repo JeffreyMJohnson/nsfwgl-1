@@ -11,7 +11,8 @@ No OpenGL!!!
 
 #include <glm/glm.hpp>
 
-struct GLFWwindow;
+//why is this here? -Jeff
+//struct GLFWwindow;
 
 namespace nsfw
 {

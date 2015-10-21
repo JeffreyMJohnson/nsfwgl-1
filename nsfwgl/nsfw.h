@@ -1,5 +1,13 @@
 #pragma once
+#include "glCore\gl_core_4_4.h"
+#include "GLFW\glfw3.h"
 
+#define GLM_FORCE_PURE
+#define GLM_SWIZZLE
+#include "glm\glm.hpp"
+#include "glm\ext.hpp"
+#include "fbxLoader\FBXFile.h"
+#include "stb\stb_image.h"
 #include <iostream>
 #include <cstring>
 #include <cassert>
@@ -25,3 +33,9 @@
 #define TODO()	  do{}while(0)
 #define TODO_D(A) do{}while(0)
 #endif
+
+#include "Window.h"
+#include "Assets.h"
+#include "render.h"
+#include "Application.h"
+#include "Vertex.h"

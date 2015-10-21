@@ -1,19 +1,19 @@
-#include "Assets.h"
-
+//#include "Assets.h"
+//
 #include <iostream>
 #include <fstream>
-
-#include <sys/types.h>
-#include <sys/stat.h>
-
-
-#include <fbxLoader\FBXFile.h>
-#include <stb\stb_image.h>
-#include <glCore\gl_core_4_4.h>
+//
+//#include <sys/types.h>
+//#include <sys/stat.h>
+//
+//
+//#include <fbxLoader\FBXFile.h>
+//#include <stb\stb_image.h>
+//#include <glCore\gl_core_4_4.h>
 
 #include "nsfw.h"
-#include "Window.h"
-#include "Vertex.h"
+//#include "Window.h"
+//#include "Vertex.h"
 
 using namespace nsfw::ASSET;
 
@@ -104,6 +104,7 @@ bool nsfw::Assets::makeVAO(const char * name, const struct Vertex *verts, unsign
 	glEnableVertexAttribArray(2);	// Tangent
 	glEnableVertexAttribArray(3);	// TexCoord
 
+	//VERIFY OFFSET NUMS
 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)POSITION_OFFSET);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_TRUE,	sizeof(Vertex), (GLvoid*)NORMAL_OFFSET);
 	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)TANGENT_OFFSET);
@@ -128,7 +129,7 @@ bool nsfw::Assets::makeVAO(const char * name, const struct Vertex *verts, unsign
 	setINTERNAL(ASSET::IBO, name, ibo);
 	setINTERNAL(ASSET::INDEXCOUNT, name, tsize);
 
-	return false;
+	return true;
 }
 
 bool nsfw::Assets::makeFBO(const char * name, unsigned w, unsigned h, unsigned nTextures, const char * names[], const unsigned depths[])
@@ -145,6 +146,7 @@ bool nsfw::Assets::makeFBO(const char * name, unsigned w, unsigned h, unsigned n
 	glGenFramebuffers(1, &fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
+	//DIFFERENT FROM JEFFS CODE
 	// generate textures
 	int colorAttachmentCount = 0;
 	for (int depthIndex = 0; depthIndex < nTextures; ++depthIndex)
@@ -212,6 +214,7 @@ bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsign
 	TODO_D("Do we need to set the active texture?");
 
 	// if 'pixels' is NULL, this is intended to be used w/ a FBO
+	//DIFF FROM JEFFS CODE HERE
 	if (nullptr == pixels && depth != GL_DEPTH_COMPONENT)
 	{
 		GLenum status = glGetError();
@@ -270,6 +273,7 @@ bool nsfw::Assets::loadTexture(const char * name, const char * path)
 	}
 
 	// showing off - http://stackoverflow.com/a/160887
+	//YES, IT IS. THIS NEEDS TO BE VERIFIED OK OR CHANGED. UN FUCKING READABLE AS WELL. -Jeff
 	imgFormat = (imgFormat == 1) ? GL_RED :
 				(imgFormat == 2) ? GL_RG :
 				(imgFormat == 3) ? GL_RGB : GL_RGBA;
