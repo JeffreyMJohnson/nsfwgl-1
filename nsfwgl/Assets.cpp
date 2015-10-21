@@ -214,9 +214,14 @@ bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsign
 	// if 'pixels' is NULL, this is intended to be used w/ a FBO
 	if (nullptr == pixels && depth != GL_DEPTH_COMPONENT)
 	{
+		GLenum status = glGetError();
+		assert(status == GL_NO_ERROR);
+
 		glTexStorage2D(GL_TEXTURE_2D, 1, depth, w, h);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		assert(status == GL_NO_ERROR);
 	}
 	else   // otherwise, we're creating a normal texture for meshes to use
 	{

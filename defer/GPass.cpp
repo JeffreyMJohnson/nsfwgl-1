@@ -7,7 +7,7 @@
 void GPass::prep()
 {
 	// renders the albedo, position, and normal
-	glDepthMask(true);
+	glDepthMask(GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
 	glDisable(GL_BLEND);
 
